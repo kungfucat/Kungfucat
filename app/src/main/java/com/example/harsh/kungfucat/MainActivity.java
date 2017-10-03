@@ -3,6 +3,7 @@ package com.example.harsh.kungfucat;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,12 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Result;
@@ -28,14 +35,17 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,
+        View.OnClickListener {
 
+    private static final int RC_SIGN_IN = 9001;
     private LoginButton loginButton;
     private TwitterLoginButton twitterLoginButton;
     private CallbackManager callbackManager;
     public ShareDialog shareDialog;
     public EditText statusToPost;
     public Button shareButton;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +61,17 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         Twitter.initialize(config);
 
-
         setContentView(R.layout.activity_main);
 
+        findViewById(R.id.sign_in_button).setOnClickListener(this);
         callbackManager=CallbackManager.Factory.create();
         shareDialog= new ShareDialog(this);
         loginButton=(LoginButton) findViewById(R.id.login_button);
         twitterLoginButton=(TwitterLoginButton) findViewById(R.id.twitterLoginButton);
         shareButton=(Button) findViewById(R.id.shareButton);
         statusToPost=(EditText) findViewById(R.id.statusPost);
+        //google sign in button
+        SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
 
         loginButton.setReadPermissions("email, publish_actions");
 
@@ -80,9 +92,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //for google sign in
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this , this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
     }
 
-
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.sign_in_button:
+                signIn();
+                break;
+        }
+    }
+    private void signIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
 
     @Override
     protected void onResume() {
@@ -125,5 +157,15 @@ public class MainActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         // for twitter
         twitterLoginButton.onActivityResult(requestCode, resultCode, data);
+        //for google
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            Toast.makeText(MainActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+       Log.e("MAinActivity","Connection Failed!");
     }
 }

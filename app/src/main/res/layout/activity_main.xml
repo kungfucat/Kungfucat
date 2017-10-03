@@ -25,6 +25,13 @@
         android:layout_alignParentBottom="true"
         android:layout_alignEnd="@+id/statusPost"
         android:layout_marginBottom="78dp" />
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_button"
+        android:layout_margin="16dp"
+        android:layout_centerHorizontal="true"/>
 
     <EditText
         android:id="@+id/statusPost"
