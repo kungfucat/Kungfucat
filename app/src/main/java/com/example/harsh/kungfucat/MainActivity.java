@@ -10,6 +10,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +24,8 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 
 import org.json.JSONObject;
 
@@ -28,18 +33,25 @@ import java.security.Permission;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView info;
-
     private LoginButton loginButton;
     private CallbackManager callbackManager;
+    public ShareDialog shareDialog;
+    public EditText statusToPost;
+    public Button shareButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+
         callbackManager=CallbackManager.Factory.create();
+        shareDialog= new ShareDialog(this);
         loginButton=(LoginButton) findViewById(R.id.login_button);
-        loginButton.setReadPermissions("email");
+        shareButton=(Button) findViewById(R.id.shareButton);
+        statusToPost=(EditText) findViewById(R.id.statusPost);
+
+        loginButton.setReadPermissions("email, publish_actions");
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -60,6 +72,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void readyToPost(View view){
+
+        if(shareDialog.canShow(ShareLinkContent.class)){
+            ShareLinkContent shareLinkContent=new ShareLinkContent.Builder()
+                    .setContentDescription("Hello World")
+                    .setContentTitle("Testing facebook integration")
+                    .build();
+            shareDialog.show(shareLinkContent);
+        }
+
+    }
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
