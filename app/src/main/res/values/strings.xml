@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Kungfucat</string>
+    <string name="facebook_app_id">244681756056482</string>
+    <string name="fb_login_protocol_scheme">fb244681756056482</string>
+</resources>
