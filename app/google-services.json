@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "491164224390",
+    "project_id": "firebase-kungfucat"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:491164224390:android:c62eac6d50ee9947",
+        "android_client_info": {
+          "package_name": "com.example.harsh.kungfucat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "491164224390-0lm5ajjnsvg9fe7q1lnd5mrr1af2pkk3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.harsh.kungfucat",
+            "certificate_hash": "b73c9e4a3b70a231e32e608d46c67c91288ac661"
+          }
+        },
+        {
+          "client_id": "491164224390-9peb43oljohj6hshaf6cd8aejk41si4l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArNDNZjP_tq2-VoSqcv7uVDp86QKBU128"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
