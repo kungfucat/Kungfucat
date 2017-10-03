@@ -2,4 +2,7 @@
     <string name="app_name">Kungfucat</string>
     <string name="facebook_app_id">244681756056482</string>
     <string name="fb_login_protocol_scheme">fb244681756056482</string>
+    <!--for twitter-->
+    <string name="CONSUMER_KEY">oT3K1qIo7PBUJgWRZ0BiSU6qn</string>
+    <string name="CONSUMER_SECRET">nxDau7IngBCyHfjpqxgRn3i0lv0OotkIQjuStPuMDfFCDj6k5a</string>
 </resources>
