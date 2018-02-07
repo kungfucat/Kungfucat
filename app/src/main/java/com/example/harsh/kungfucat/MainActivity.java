@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
+
     }
 
     @Override
@@ -108,6 +109,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         switch (v.getId()) {
             case R.id.sign_in_button:
                 signIn();
+                //let's try this new brsnch "dev"
+                //actually there is no need for these comments.....
+                //lol lol lol XD XD XD
                 break;
         }
     }
